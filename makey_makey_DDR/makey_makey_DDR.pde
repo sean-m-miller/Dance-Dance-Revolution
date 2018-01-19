@@ -8,6 +8,9 @@ int hotx = 0;
 int lvl = 2;
 int timer = 0;
 int len;
+int gameframe = 0;
+int actlvl = 1;
+int realx = 0;
 boolean enter = true;
 boolean game = false; // game is NOT over
 
@@ -72,7 +75,7 @@ void input(int x){
     for(int i = objects.length - 1; i >= 0; i--){
       if(objects[i].randint == x){
         if(50 < objects[i].y && 250 > objects[i].y){
-          text("Good!", objects[i].x + 200, 200);
+          text("Good!", realx + objects[i].x + 200, 200);
           good ++;
           hot++;
           println(hot);
@@ -90,7 +93,7 @@ void input(int x){
           return;
         }
         else{
-          text("You Suck!", objects[i].x + 200, 200);
+          text("You Suck!", realx + objects[i].x + 200, 200);
           bad ++;
           hot = 0;
           hotx = 0;
@@ -103,7 +106,7 @@ void input(int x){
         }
       }
     }
-    text("You Suck", width*x/4 + 400, 200);
+    text("You Suck", realx + width*x/4 + 400, 200);
     bad++;
     hot = 0;
     hotx = 0;
@@ -145,40 +148,41 @@ void draw(){
     }
     textSize(32);
     fill(0);
-    text("Good: " + good, 50, 100);
-    text("Bad: " + bad, 50, 150);
+    text("Good: " + good, 50 + realx, 100);
+    text("Bad: " + bad, 50 + realx, 150);
+    text("Level: " + actlvl, 50 + realx, 200);
     if(hot >= 10){
       textSize(40);
       fill(255, 0, 0);
-      text("HOTSTREAK!!!: " + hotx, 50, 400);
+      text("HOTSTREAK!!!: " + hotx, realx + width/2 - 200, 100);
     }
-    if(hotx > 3){
-      lvl = 2;
-      hotx = 0;
-      hot = 0;
+    if(hotx == 2){
+      game = true;
     }
-    if(hotx > 3 && lvl == 2){
-      lvl = 3;
-      hotx = 0;
-      hot = 0;
-    }
-    print(hot + "\n");
-    print(lvl+"\n");
   }
   else{
-    textSize(64);
+    background(255);
+    gameframe ++;
+    textSize(32);
     fill(0);
     textAlign(CENTER, CENTER);
-    text("Congratulations! You won! Press any key to play again... but this time, at a harder level!", height/2, width/2);
-    lvl ++;
-    len = objects.length;
-    for(int i = 0; i< len; i++){
-      objects = (Arrow[])shorten(objects);
+    text("Congratulations! You won! Press any key to play again... but this time, at a harder level!", width/2, height/2);
+    if(gameframe > 50 && keyPressed){
+      if(actlvl == 1){ // dumb if statement, needed to fix a dumb bug where formatting would for some reason change after actlvl incrimented
+        realx+=60;
+      }
+      lvl+=2;
+      actlvl++;
+      len = objects.length;
+      for(int i = 0; i< len; i++){
+        objects = (Arrow[])shorten(objects);
+      }
+      good = 0;
+      bad = 0;
+      hot = 0;
+      hotx = 0;
+      gameframe = 0;
+      game = false;
     }
-    good = 0;
-    bad = 0;
-    hot = 0;
-    hotx = 0;
-    game = false;
   }
 }
