@@ -1,3 +1,3 @@
-Welcome to Dance Dance Revolution! To play, open the file named makey_make_DDR.pde. When a solid arrow enters the outlined arrow, press the corresponding arrow on your keyboard. To get a HOTSTREAK, get 10 “good!”s in a row. To win, get a triple HOTSTREAK! A “you suck!” will eliminate your current hot streak. Beat the game to unlock harder levels! 
+Welcome to Dance Dance Revolution! To play, download the directory and open the file named makey_make_DDR.pde. When a solid arrow enters the outlined arrow, press the corresponding arrow on your keyboard. To get a HOTSTREAK, get 10 “good!”s in a row. To win, get a triple HOTSTREAK! A “you suck!” will eliminate your current hot streak. Beat the game to unlock harder levels! 
 
 	— THIS GAME IS DESIGNED TO BE COMPATIBLE WITH 27-inch (2592 px) MONITORS, BUT WILL WORK WITH ANY LARGER MONITOR, AS WELL AS ANY THAT ARE ONLY SLIGHTLY SMALLER. SORRY FOR ANY INCONVENIENCE!
