@@ -93,7 +93,7 @@ void input(int x){
           return;
         }
         else{
-          text("You Suck!", realx + objects[i].x + 200, 200);
+          text("Bad!", realx + objects[i].x + 200, 200);
           bad ++;
           hot = 0;
           hotx = 0;
@@ -106,7 +106,7 @@ void input(int x){
         }
       }
     }
-    text("You Suck", realx + width*x/4 + 400, 200);
+    text("Bad!", realx + width*x/4 + 400, 200);
     bad++;
     hot = 0;
     hotx = 0;
