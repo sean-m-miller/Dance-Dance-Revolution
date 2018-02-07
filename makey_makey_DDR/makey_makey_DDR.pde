@@ -1,17 +1,16 @@
-Arrow[] objects = new Arrow[1];
+Arrow[] objects = new Arrow[1]; //game object array, starts with one randomly generated arrow
 int good = 0;
 int bad = 0;
 int inframe = 0;
-int arframe = 0;
+int arframe = 0; // prevents arrows being generated too closely to eachother
 int hot = 0;
 int hotx = 0;
-int lvl = 2;
+int lvl = 2; // determines speed of arrows
 int timer = 0;
 int len;
 int gameframe = 0;
 int actlvl = 1;
 int realx = 0;
-boolean enter = true;
 boolean game = false; // game is NOT over
 
 void setup(){
@@ -22,7 +21,7 @@ void setup(){
  objects[0] = new Arrow(rand, height - 1.5*height/8);
 }
 
-void newArrow(){ // call in draw, adds an arrow to the array every 4/200 times draw gets called.
+void newArrow(){ // call in draw, adds an arrow to the array every 50 times draw gets called.
   float x = random(105);
   if(x > 88 && arframe >= 30){
     randomArrow();
@@ -39,22 +38,22 @@ void randomArrow(){
   objects[0] = next; // fill objects[0] with next
 }
 
-void updateObj(){ // call in draw, removes object from array if its off screen, moves arrows upwards
+void updateObj(){ // call in draw, removes objects from array if they're off screen, moves arrows upwards
   for(int i = 0; i < objects.length; i++){
-    objects[i].y -= 4 + (lvl*lvl);
-    if(objects[i].y > height-200){
-      objects = (Arrow[])shorten(objects);
+    objects[i].y -= 4 + (lvl*lvl); //speed at which arrows move upward is determined by lvl
+    if(objects[i].y > height-200){ // if offcreen
+      objects = (Arrow[])shorten(objects); // remove highest arrow
     }
   }
 }
 
-void display(){
+void display(){ //display game objects contained in array on screen
   for(int i = 0; i<objects.length; i++){
     image(objects[i]. arr, objects[i].x, objects[i].y);
   }
 }
   
-class Arrow{
+class Arrow{ //game object class. Each arrow has an x value and an orientation determined by randint
   float x;
   float y;
   int randint;
@@ -64,44 +63,45 @@ class Arrow{
     randint = randomint;
     x = (width*randint/4)+200;
     arr = loadImage("arrow"+randint+".png");
-    arframe = 0;
+    arframe = 0; 
   }
 }
 
-void input(int x){
+void input(int x){ // interpret user input, edits player's score and removes items from game object array
   textSize(32);
   fill(0);
-  if (inframe >= 24){
-    for(int i = objects.length - 1; i >= 0; i--){
-      if(objects[i].randint == x){
-        if(50 < objects[i].y && 250 > objects[i].y){
+  if (inframe >= 24){ // button can be pressed once every 24 "frames" (prevents one press of button counting more than once)
+    for(int i = objects.length - 1; i >= 0; i--){ //start at highest index, search down
+      if(objects[i].randint == x){ //if button orientation equals 
+        if(50 < objects[i].y && 250 > objects[i].y){ // acceptible button press
           text("Good!", realx + objects[i].x + 200, 200);
-          good ++;
-          hot++;
+          good ++; //update varible used for "good: " display
+          hot++; //update variable used for total amount of good hits
           println(hot);
           println(hotx);
           if(hot % 10 == 0){
             while(hotx*10 < hot){
-              hotx++;
+              hotx++; //update variable used to tell amount of hotstreak
             }
           }
           for(int j = i; j < objects.length-1; j++){
-            objects[j] = objects[j+1];
+            objects[j] = objects[j+1]; //move all arrows above the well-pressed arrow in the array (higher on the screen) down one spot,
+            //overwriting the well-pressed arrow
           }
-          objects = (Arrow[])shorten(objects);
-          inframe = 0;
+          objects = (Arrow[])shorten(objects); //shorten array by 1 (eliminate highest index)
+          inframe = 0; //restart frame control
           return;
         }
-        else{
+        else{ //unacceptible button press
           text("Bad!", realx + objects[i].x + 200, 200);
           bad ++;
           hot = 0;
           hotx = 0;
           for(int j = i; j < objects.length-1; j++){
-            objects[j] = objects[j+1];
+            objects[j] = objects[j+1]; //move elements down, overwriting badly-pressed arrow
           }
-          objects = (Arrow[])shorten(objects);
-          inframe = 0;
+          objects = (Arrow[])shorten(objects); //eliminate largest index
+          inframe = 0; //restart frame control
           return;
         }
       }
@@ -113,12 +113,12 @@ void input(int x){
   }
 }
 
+//Loops while game is played
 void draw(){
-  if(!game){
-    inframe++;
+  if(!game){ // while game has not been won
+    inframe++; // frame rate control
     arframe++;
     background(255);
-    //outlines do not work
     PImage outline0 = loadImage("outline0.png");
     PImage outline1 = loadImage("outline1.png");
     PImage outline2 = loadImage("outline2.png");
@@ -130,7 +130,7 @@ void draw(){
     newArrow();
     updateObj();
     display();
-    if(keyPressed){
+    if(keyPressed){ //handle user input
       if(key == CODED){
         if(keyCode == LEFT){
           input(0);
@@ -160,7 +160,7 @@ void draw(){
       game = true;
     }
   }
-  else{
+  else{ //win state
     background(255);
     gameframe ++;
     textSize(32);
