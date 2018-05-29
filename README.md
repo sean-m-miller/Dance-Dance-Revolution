@@ -1,2 +1,2 @@
 # Dance-Dance-Revolution
-Interactive game built with Processing. Enjoy!
+Built with Processing. Enjoy!
